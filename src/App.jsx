@@ -95,6 +95,29 @@ function App() {
             const svg = parser.parseFromString(svgData, 'text/xml');
             const svgWithTooltips = addTooltipsToPaths(svgData);
             const svgWithColors = addColorsToPaths(svgWithTooltips, ilk.CB.YurtIci.b);
+            
+            const general = ilk.CB.YurtIci.c;
+            const k41 = general.find((k) => k.k === 41).t;
+            const k43 = general.find((k) => k.k === 43).t;
+
+            const tableData = {
+              title: 'Genel',
+              ilk_tur: {
+                rte: k41.toLocaleString(),
+                rte_percent: (100*k41 / (k41 + k43)).toLocaleString(),
+                kk: k43.toLocaleString(),
+                kk_percent: (100*k43 / (k41+ k43)).toLocaleString(),
+                diff: (k43 - k41).toLocaleString(),
+              },
+              ikinci_tur: {
+                rte: 0,
+                rte_percent: 0,
+                kk: 0,
+                kk_percent: 0,
+                diff: 0,
+              }
+            };
+            setTableData(tableData);
 
             setData(svgWithColors);
             setLoading(false);
