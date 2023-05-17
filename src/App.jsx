@@ -6,25 +6,7 @@ function App() {
   const [tab, setTab] = React.useState(0);
   const [ilktur, setIlktur] = React.useState([]);
   const [ikincitur, setIkincitur] = React.useState([]);
-  const [tableData, setTableData] = React.useState(
-    {
-      title: 'Adana',
-      ilk_tur: {
-        rte: 0,
-        rte_percent: 0,
-        kk: 0,
-        kk_percent: 0,
-        diff: 0,
-      },
-      ikinci_tur: {
-        rte: 0,
-        rte_percent: 0,
-        kk: 0,
-        kk_percent: 0,
-        diff: 0,
-      }
-    }
-  ); 
+  const [tableData, setTableData] = React.useState({});
   const [data, setData] = React.useState('');
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
@@ -94,47 +76,45 @@ function App() {
           .then((ilk) => {
             setIlktur(ilk);
             fetch('https://raw.githubusercontent.com/hevirbek/turkey-map-svg/main/turkiye.svg')
-          .then((response) => response.text())
-          .then((svgData) => {
-            const parser = new DOMParser();
-
-            const svg = parser.parseFromString(svgData, 'text/xml');
-            const svgWithTooltips = addTooltipsToPaths(svgData);
-            const svgWithColors = addColorsToPaths(svgWithTooltips, ilk.CB.YurtIci.b);
+            .then((response) => response.text())
+            .then((svgData) => {
+              const parser = new DOMParser();
+              
+              const svg = parser.parseFromString(svgData, 'text/xml');
+              const svgWithTooltips = addTooltipsToPaths(svgData);
+              const svgWithColors = addColorsToPaths(svgWithTooltips, ilk.CB.YurtIci.b);
             
-            const general = ilk.CB.YurtIci.c;
-            const k41 = general.find((k) => k.k === 41).t;
-            const k43 = general.find((k) => k.k === 43).t;
-
-            const tableData = {
-              title: 'Genel',
-              ilk_tur: {
-                rte: k41.toLocaleString(),
-                rte_percent: (100*k41 / (k41 + k43)).toLocaleString(),
-                kk: k43.toLocaleString(),
-                kk_percent: (100*k43 / (k41+ k43)).toLocaleString(),
-                diff: (k43 - k41).toLocaleString(),
-              },
-              ikinci_tur: {
-                rte: 0,
-                rte_percent: 0,
-                kk: 0,
-                kk_percent: 0,
-                diff: 0,
-              }
-            };
-            setTableData(tableData);
-
-            setData(svgWithColors);
-            setLoading(false);
-          })
-          .catch((error) => {
+              const general = ilk.CB.YurtIci.c;
+              const k41 = general.find((k) => k.k === 41).t;
+              const k43 = general.find((k) => k.k === 43).t;
+              
+              const tableData = {
+                title: 'Genel',
+                ilk_tur: {
+                  rte: k41.toLocaleString(),
+                  rte_percent: (100*k41 / (k41 + k43)).toLocaleString(),
+                  kk: k43.toLocaleString(),
+                  kk_percent: (100*k43 / (k41+ k43)).toLocaleString(),
+                  diff: (k43 - k41).toLocaleString(),
+                },
+                ikinci_tur: {
+                  rte: 0,
+                  rte_percent: 0,
+                  kk: 0,
+                  kk_percent: 0,
+                  diff: 0,
+                }
+              };
+              
+              setTableData(tableData);
+              setData(svgWithColors);
+              setLoading(false);
+            })
+            .catch((error) => {
             setError(error.message);
             setLoading(false);
           });
-          }
-          )
-    
+          })
   }, []);
 
   const addTooltipsToPaths = (svgData) => {
@@ -209,20 +189,26 @@ function App() {
         </div>
       </div>
 
-      <div className='p-10 w-full col-span-2'>
+      <div className='col-span-2'>
         {loading ? (
           <div>Loading...</div>
         ) : (
           tab === 0 ? 
           <Map data={data} handleCityClick={handleCityClick} /> 
           : 
-          <div>İkinci Tur</div>
+          <div className='h-[90vh]'>İkinci Tur</div>
         )}
         {error && <div>{error}</div>}
       </div>
 
-      <div id='table'>
-        <Table tableData={tableData} />
+      <div id='table h-full' className='p-10 col-span-1'>
+        {
+          loading ? (
+            <div>Loading...</div>
+          ) : (
+        <Table tableData={tableData} /> 
+          )
+        }
       </div>
       
 
