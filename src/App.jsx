@@ -56,6 +56,9 @@ function App() {
         }
       };
       setTableData(tableData);
+
+      const table = document.getElementById('table');
+      table.scrollIntoView({ behavior: 'smooth' });
       return;
     }
     const k41 = ilktur_data.c.find((k) => k.k === 41).t;
@@ -78,6 +81,9 @@ function App() {
     }
     };
     setTableData(tableData);
+
+    const table = document.getElementById('table');
+    table.scrollIntoView({ behavior: 'smooth' });
   };
 
 
@@ -179,7 +185,7 @@ function App() {
 
 
   return (
-    <div className='grid grid-cols-3 gap-2 max-h-[90px]'>
+    <div className='sm:block lg:grid grid-cols-3 gap-2 max-h-[90px]'>
 
       {/* Change tabs */}
       <div className='col-span-3'>
@@ -215,7 +221,7 @@ function App() {
         {error && <div>{error}</div>}
       </div>
 
-      <div>
+      <div id='table'>
         <Table tableData={tableData} />
       </div>
       
