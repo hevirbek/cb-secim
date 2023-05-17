@@ -13,13 +13,13 @@ function Table({ tableData }) {
           <thead>
             <tr>
               <th className="px-1 py-2"></th>
-              <th className="px-1 py-2 text-center" colSpan={2}>İlk Tur</th>
-              <th className="px-1 py-2 text-center" colSpan={2}>İkinci Tur</th>
+              <th className="px-1 py-2 bg-blue-50 border  text-center" colSpan={2}>İlk Tur</th>
+              <th className="px-1 py-2 bg-blue-50 border text-center" colSpan={2}>İkinci Tur</th>
             </tr>
           </thead>
           <tbody>
           <tr>
-              <td className="border px-1 py-2">KK</td>
+              <td className="border font-bold px-1 py-2">KK</td>
               <td className="border px-1 py-2">
               {tableData.ilk_tur.kk}
               </td>
@@ -34,7 +34,7 @@ function Table({ tableData }) {
               </td>
             </tr>
             <tr>
-              <td className="border px-1 py-2">RTE</td>
+              <td className="border font-bold px-1 py-2">RTE</td>
               <td className="border px-1 py-2">
                 {tableData.ilk_tur.rte}
               </td>
@@ -50,7 +50,7 @@ function Table({ tableData }) {
             </tr>
             
             <tr>
-                <td className="border px-1 py-2">FARK</td>
+                <td className="border font-bold px-1 py-2">FARK</td>
                 <td className="border px-1 py-2" colSpan={2}>
                 {tableData.ilk_tur.diff}
                 </td>
